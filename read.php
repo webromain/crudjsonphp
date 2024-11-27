@@ -203,7 +203,7 @@
                         <input type="text" name="occupation" id="occupation" required placeholder="Designer">
                     </div>
                     <div>
-                        <label for="activated">Activated<span class="rouge">*</span></label>
+                        <label for="activated">Activated</label>
                         <select name="activated" id="activated" required>
                         <option value="true">True</option>
                         <option value="false">False</option>

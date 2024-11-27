@@ -7,17 +7,16 @@
     $occupation = $_POST["occupation"];
     $activated = $_POST["activated"];
 
-    if ($activated == "true") {
-        $activ = true;
-    }
-    else {
-        $activ = false;
-    }
-
     function _update($id = int, $name = str, $age = int, $role = str, $occupation = str, $activated = bool) {
         // Charger le fichier JSON
         $json = file_get_contents("bdd.json");
         $parse = json_decode($json, true); // Décoder en tableau associatif
+
+        // Vérifier si le JSON est valide
+        if ($parse === null) {
+            echo "<p class='message'>Erreur : Impossible de décoder le fichier JSON.\n</p>";
+            return;
+        }
     
         // Vérification si l'ID existe dans le JSON
         if (!isset($parse[$id])) {
@@ -25,21 +24,26 @@
             return;
         }
 
-
         if ($name == "") {
-            $name = $parse[1]['name'];
+            $name = $parse[$id]['name'];
         }
         if ($age == "") {
-            $age = $parse[1]['age'];
+            $age = $parse[$id]['age'];
         }
         if ($role == "") {
-            $role = $parse[1]['role'];
+            $role = $parse[$id]['role'];
         }
         if ($occupation == "") {
-            $occupation = $parse[1]['occupation'];
+            $occupation = $parse[$id]['occupation'];
         }
         if ($activated == "") {
-            $activated = $parse[1]['activated'];
+            $activated = $parse[$id]['activated'];
+        }
+        if ($activated == "true") {
+            $activated = true;
+        }
+        else {
+            $activated = false;
         }
     
         // Mise à jour des données
@@ -57,7 +61,7 @@
     
         // Optionnel : Affichage ou appel d'une autre fonction (comme _list)
         echo "<p class='message'>Successful Update.\n</p>";
-    } _update($id, $name, $age, $role, $occupation, $activ);
+    } _update($id, $name, $age, $role, $occupation, $activated);
 
     header("location: index.php");
 

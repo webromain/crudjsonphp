@@ -187,26 +187,27 @@
                         <input type="text" name="id" id="id" required placeholder="3">
                     </div>
                     <div>
-                        <label for="name">Nom<span class="rouge">*</span></label>
-                        <input type="text" name="name" id="name" required placeholder="Jean">
+                        <label for="name">Nom</label>
+                        <input type="text" name="name" id="name" placeholder="Jean">
                     </div>
                     <div>
-                        <label for="age">Age<span class="rouge">*</span></label>
-                        <input type="number" name="age" id="age" required placeholder="34">
+                        <label for="age">Age</label>
+                        <input type="number" name="age" id="age" placeholder="34">
                     </div>
                     <div>
-                        <label for="role">Role<span class="rouge">*</span></label>
-                        <input type="text" name="role" id="role" required placeholder="Reader">
+                        <label for="role">Role</label>
+                        <input type="text" name="role" id="role" placeholder="Reader">
                     </div>
                     <div>
-                        <label for="occupation">Occupation<span class="rouge">*</span></label>
-                        <input type="text" name="occupation" id="occupation" required placeholder="Designer">
+                        <label for="occupation">Occupation</label>
+                        <input type="text" name="occupation" id="occupation" placeholder="Designer">
                     </div>
                     <div>
                         <label for="activated">Activated</label>
-                        <select name="activated" id="activated" required>
-                        <option value="true">True</option>
-                        <option value="false">False</option>
+                        <select name="activated" id="activated">
+                            <option value="">Any</option>
+                            <option value="true">True</option>
+                            <option value="false">False</option>
                         </select>
                     </div>
                         

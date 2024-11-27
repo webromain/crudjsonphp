@@ -156,19 +156,10 @@
         "activated": true
     },
     {
-        "id": 22,
-        "name": "Jeanksjdqhf",
-        "age": "32",
+        "name": "Arthur",
+        "age": 32,
         "role": "Reader",
         "occupation": "Designer",
-        "activated": true
-    },
-    {
-        "id": 23,
-        "name": "Jean",
-        "age": "34",
-        "role": "lqksjdf",
-        "occupation": "mlqksdjf",
         "activated": true
     },
     {
@@ -177,6 +168,21 @@
         "age": "34",
         "role": "Reader",
         "occupation": "Designer",
+        "activated": true
+    },
+    {
+        "name": "Fiona",
+        "age": 45,
+        "role": "Lecteur",
+        "occupation": "Dev",
+        "activated": false
+    },
+    {
+        "id": 26,
+        "name": "Jean",
+        "age": "94",
+        "role": "Lecteur",
+        "occupation": "Dev",
         "activated": true
     }
 ]

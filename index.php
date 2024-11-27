@@ -26,14 +26,21 @@
                 function _add($name = str, $age = int, $role = str, $occupation = str, $activated = bool){
                     $json = file_get_contents("bdd.json");
                     $parse = json_decode($json);
-
+                    
                     // Vérifier si le JSON est valide
                     if ($parse === null) {
                         echo "<p class='message'>Erreur : Impossible de décoder le fichier JSON.\n</p>";
                         return;
                     }
 
-                    array_push($parse, ["name" => $name, "age" => $age, "role" => $role, "occupation" => $occupation, "activated" => $activated]);
+                    if ($activated == "true") {
+                        $activated = true;
+                    }
+                    else {
+                        $activated = false;
+                    }
+
+                    array_push($parse, ["id" => count($parse), "name" => $name, "age" => $age, "role" => $role, "occupation" => $occupation, "activated" => $activated]);
                     // Encodage en JSON et sauvegarde dans le fichier
                     $contenu_json = json_encode($parse, JSON_PRETTY_PRINT);
                     file_put_contents("bdd.json", $contenu_json);
@@ -44,6 +51,12 @@
                     // Charger le fichier JSON
                     $json = file_get_contents("bdd.json");
                     $parse = json_decode($json, true); // Décoder en tableau associatif
+            
+                    // Vérifier si le JSON est valide
+                    if ($parse === null) {
+                        echo "<p class='message'>Erreur : Impossible de décoder le fichier JSON.\n</p>";
+                        return;
+                    }
                 
                     // Vérification si l'ID existe dans le JSON
                     if (!isset($parse[$id])) {
@@ -51,21 +64,26 @@
                         return;
                     }
             
-            
                     if ($name == "") {
-                        $name = $parse[1]['name'];
+                        $name = $parse[$id]['name'];
                     }
                     if ($age == "") {
-                        $age = $parse[1]['age'];
+                        $age = $parse[$id]['age'];
                     }
                     if ($role == "") {
-                        $role = $parse[1]['role'];
+                        $role = $parse[$id]['role'];
                     }
                     if ($occupation == "") {
-                        $occupation = $parse[1]['occupation'];
+                        $occupation = $parse[$id]['occupation'];
                     }
                     if ($activated == "") {
-                        $activated = $parse[1]['activated'];
+                        $activated = $parse[$id]['activated'];
+                    }
+                    if ($activated == "true") {
+                        $activated = true;
+                    }
+                    else {
+                        $activated = false;
                     }
                 
                     // Mise à jour des données
@@ -88,13 +106,13 @@
                 function _delete($id = int){
                     $json = file_get_contents("bdd.json");
                     $parse = json_decode($json);
-
+            
                     // Vérifier si le JSON est valide
                     if ($parse === null) {
                         echo "<p class='message'>Erreur : Impossible de décoder le fichier JSON.\n</p>";
                         return;
                     }
-
+            
                     array_splice($parse, $id, 1);
                     // Encodage en JSON et sauvegarde dans le fichier
                     $contenu_json = json_encode($parse, JSON_PRETTY_PRINT);
@@ -238,9 +256,10 @@
                     </div>
                     <div>
                         <label for="activated">Activated</label>
-                        <select name="activated" id="activated" required>
-                        <option value="true">True</option>
-                        <option value="false">False</option>
+                        <select name="activated" id="activated">
+                            <option value="">Any</option>
+                            <option value="true">True</option>
+                            <option value="false">False</option>
                         </select>
                     </div>
                         

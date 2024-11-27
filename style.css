@@ -1,0 +1,74 @@
+*,
+::before,
+::after{
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+table{
+    margin: 0 !important;
+    padding: 0 !important;
+    margin-bottom: 10rem !important;
+    border-collapse: separate;
+}
+
+.table td, .table th{
+    border-top: 0;
+}
+
+.top{
+    position: sticky;
+    top: 0;
+    background: #212529;
+    border-color: #95999c;
+}
+
+.secbtns{
+    right: 0;
+    bottom: 0;
+    z-index: 1000;
+    position: fixed;
+    padding: 1rem;
+}
+
+.secbtns button{
+    padding: 0.8rem;
+    margin: 0.2rem;
+}
+
+.message{
+    position: fixed;
+    background-color: white;
+    bottom: 0;
+    padding: 0.5rem;
+    border: 1px solid black;
+}
+
+.submenu {
+    position: fixed;
+    display: none;
+    bottom: 5.5rem;
+    right: 1.3rem;
+    padding: 1rem;
+    background-color: #6c757d;
+    border-radius: 5px;
+    color: white;
+}
+
+.submenu.active {
+    display: block;
+}
+
+.rouge{
+    color: red;
+}
+
+.inp{
+    display: flex;
+    justify-content: space-between;
+}
+
+.inp input{
+    padding: 0.3rem;
+}

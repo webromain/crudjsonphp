@@ -177,7 +177,7 @@
                 <form method="post" action="read.php">
                     <h3>List</h3>
                     <div>
-                        <label for="id">Id<span class="rouge">*</span></label>
+                        <label for="id">Id</label>
                         <input type="text" name="id" id="id" placeholder="3">
                     </div>
                     <div>

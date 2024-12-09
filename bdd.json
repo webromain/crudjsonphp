@@ -164,42 +164,10 @@
         "activated": true
     },
     {
-        "id": 26,
-        "name": "Christine",
-        "age": "58",
-        "role": "Reader",
-        "occupation": "Directeur Juridique",
-        "activated": true
-    },
-    {
         "name": "Romain",
         "age": 45,
         "role": "IDK",
         "occupation": "PC",
-        "activated": true
-    },
-    {
-        "id": 26,
-        "name": "lskdjf",
-        "age": "45",
-        "role": "IDK",
-        "occupation": "lsqkdf",
-        "activated": true
-    },
-    {
-        "id": 27,
-        "name": "lsdjf",
-        "age": "45",
-        "role": "lskjdqf",
-        "occupation": "Dev",
-        "activated": true
-    },
-    {
-        "id": 27,
-        "name": "Jean",
-        "age": "45",
-        "role": "jsldkqjf",
-        "occupation": "lsqkdf",
         "activated": true
     },
     {
@@ -256,12 +224,5 @@
         "role": "IDK",
         "occupation": "designer",
         "activated": true
-    },
-    {
-        "name": "Marccc",
-        "age": 45,
-        "role": "lqksjdf",
-        "occupation": "lsqkdf",
-        "activated": false
     }
 ]

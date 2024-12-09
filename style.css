@@ -19,7 +19,7 @@ table{
 
 .top{
     position: sticky;
-    top: 0;
+    top: -3px;
     background: #212529;
     border-color: #95999c;
 }
@@ -64,11 +64,14 @@ table{
     color: red;
 }
 
-.inp{
+form div{
     display: flex;
     justify-content: space-between;
+    padding: 0.3rem;
+    gap: 1rem;
 }
 
 .inp input{
     padding: 0.3rem;
+    width: 4rem;
 }

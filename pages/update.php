@@ -4,13 +4,13 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.4.1/dist/css/bootstrap.min.css" integrity="sha384-Vkoo8x4CGsO3+Hhxv8T/Q5PaXtkKtu6ug5TOeNV6gBiFeWPGFN9MuhOf23Q9Ifjh" crossorigin="anonymous">
-    <link rel="stylesheet" href="style.css">
+    <link rel="stylesheet" href="..\style.css">
     <title>CRUD</title>
 </head>
 <body>
     
     <table class="table table-striped table-dark">
-        <thead>
+        <thead class="top">
             <tr>
                 <th scope="col">#</th>
                 <th scope="col">Name</th>
@@ -20,84 +20,98 @@
                 <th scope="col">Activated</th>
             </tr>
         </thead>
-            <tbody>
-                <?php
+        <tbody>
+            <?php
 
-                    function _list($id = null, $name = null, $age = null, $role = null, $occupation = null, $activated = null) {
-                        // Charger le fichier JSON
-                        if (!file_exists("bdd.json")) {
-                            echo "<tr><td colspan='6'>Erreur : Le fichier bdd.json n'existe pas.</td></tr>";
-                            return;
-                        }
+                //Charger le fichier JSON
+                if (!file_exists("..\bdd.json")) {
+                    echo "<p class='message'>Erreur : Le fichier bdd.json n'existe pas.</p>";
+                    return;
+                }
 
-                        $json = file_get_contents("bdd.json");
-                        $parse = json_decode($json);
+                $json = file_get_contents("..\bdd.json");
+                $parse = json_decode($json);
 
-                        // Vérifier si le JSON est valide
-                        if ($parse === null) {
-                            echo "<tr><td colspan='6'>Erreur : Impossible de décoder le fichier JSON.</td></tr>";
-                            return;
-                        }
+                // Vérifier si le JSON est valide
+                if ($parse === null) {
+                    echo "<tr><td colspan='6'>Erreur : Impossible de décoder le fichier JSON.</td></tr>";
+                    return;
+                }
 
-                        // Vérifier si le JSON est vide
-                        if (empty($parse)) {
-                            echo "<tr><td colspan='6'>Pas de données disponibles.</td></tr>";
-                            return;
-                        }
-
-                        // Filtrer les résultats
-                        $filtered_results = array_filter($parse, function ($entry) use ($id, $name, $age, $role, $occupation, $activated) {
-                            // Validation des propriétés
-                            if (!isset($entry->id, $entry->name, $entry->age, $entry->role, $entry->occupation, $entry->activated)) {
-                                return false;
-                            }
-                        
-                            // Comparer en tenant compte des types
-                            if ($id !== null && (int)$id !== (int)$entry->id) return false;
-                            if ($name !== null && stripos($entry->name, $name) === false) return false;
-                            if ($age !== null && (int)$age !== (int)$entry->age) return false;
-                            if ($role !== null && stripos($entry->role, $role) === false) return false;
-                            if ($occupation !== null && stripos($entry->occupation, $occupation) === false) return false;
-                        
-                            // Convertir 'activated' en booléen pour comparaison
-                            if ($activated !== null) {
-                                $activated_value = filter_var($activated, FILTER_VALIDATE_BOOLEAN);
-                                if ($activated_value !== $entry->activated) return false;
-                            }
-                        
-                            return true;
-                        });
-
-                        // Afficher les résultats filtrés
-                        if (empty($filtered_results)) {
-                            echo "<tr><td colspan='6'>Aucun résultat trouvé avec les critères donnés.</td></tr>";
-                            return;
-                        }
-
-                        foreach ($filtered_results as $entry) {
-                            echo "<tr>";
-                            echo "<th scope='row'>" . htmlspecialchars($entry->id) . "</th>";
-                            echo "<td>" . htmlspecialchars($entry->name) . "</td>";
-                            echo "<td>" . htmlspecialchars($entry->age) . "</td>";
-                            echo "<td>" . htmlspecialchars($entry->role) . "</td>";
-                            echo "<td>" . htmlspecialchars($entry->occupation) . "</td>";
-                            echo "<td>" . ($entry->activated ? "True" : "False") . "</td>";
-                            echo "</tr>";
-                        }
+                function _update($parse, $id = int, $name = str, $age = int, $role = str, $occupation = str, $activated = bool) {
+                
+                    // Vérification si l'ID existe dans le JSON
+                    if ($id+1 > count($parse)) {
+                        echo "<tr><td colspan='6'>Erreur : ID non trouvé.</td></tr>";
+                        return;
                     }
 
-                    _list(
-                        $_POST['id'] ?? null,
-                        $_POST['name'] ?? null,
-                        $_POST['age'] ?? null,
-                        $_POST['role'] ?? null,
-                        $_POST['occupation'] ?? null,
-                        $_POST['activated'] ?? null
-                    );
-                    
+                    if ($name == "") {
+                        $name = $parse[$id]->name;
+                    }
+                    if ($age == "") {
+                        $age = $parse[$id]->age;
+                    }
+                    if ($role == "") {
+                        $role = $parse[$id]->role;
+                    }
+                    if ($occupation == "") {
+                        $occupation = $parse[$id]->occupation;
+                    }
+                    if ($activated == "") {
+                        $activated = $parse[$id]->activated;
+                    }
+                    if ($activated == "true") {
+                        $activated = true;
+                    }
+                    else {
+                        $activated = false;
+                    }
+                
+                    // Mise à jour des données
+                    $parse[$id] = [
+                        "name" => $name,
+                        "age" => (int)$age, // Conversion explicite en entier
+                        "role" => $role,
+                        "occupation" => $occupation,
+                        "activated" => (bool)$activated // Conversion explicite en booléen
+                    ];
+                
+                    // Encodage en JSON et sauvegarde dans le fichier
+                    $contenu_json = json_encode($parse, JSON_PRETTY_PRINT);
+                    file_put_contents("..\bdd.json", $contenu_json);
 
-                ?>
-            </tbody>
+                    echo "<p class='message'>Successful Update.</p>";
+                }
+
+                _update(
+                    $parse,
+                    $_POST['id'],
+                    $_POST['name'] ?? null,
+                    $_POST['age'] ?? null,
+                    $_POST['role'] ?? null,
+                    $_POST['occupation'] ?? null,
+                    $_POST['activated'] ?? null
+                );
+
+                $json = file_get_contents("..\bdd.json");
+                $parse = json_decode($json);
+                $i = 0;
+                
+                foreach ($parse as $valeur) {
+                    echo "<tr>";
+                    echo "<th scope='row'>". $i. "</th>";
+                    echo "<td>". htmlspecialchars($valeur->name ?? 'N/A'). "</td>";
+                        echo "<td>". htmlspecialchars($valeur->age ?? 'N/A'). "</td>";
+                        echo "<td>". htmlspecialchars($valeur->role ?? 'N/A'). "</td>";
+                        echo "<td>". htmlspecialchars($valeur->occupation ?? 'N/A'). "</td>";
+                        echo "<td>". htmlspecialchars($valeur->activated ?? 'N/A'). "</td>";
+                        echo "</tr>";
+                    $i++;
+                }
+
+            ?>
+        </tbody>
     </table>
 
     <section class="secbtns">
@@ -123,11 +137,10 @@
                         <input type="text" name="occupation" id="occupation" required placeholder="Designer">
                     </div>
                     <div>
-                        <label for="activated">Activated</label>
+                        <label for="activated">Activated<span class="rouge">*</span></label>
                         <select name="activated" id="activated" required>
-                            <option value="">Any</option>
-                            <option value="true">True</option>
-                            <option value="false">False</option>
+                        <option value="true">True</option>
+                        <option value="false">False</option>
                         </select>
                     </div>
                         
@@ -144,7 +157,7 @@
                     <h3>List</h3>
                     <div>
                         <label for="id">Id</label>
-                        <input type="text" name="id" id="id" placeholder="3">
+                        <input type="number" name="id" id="id" placeholder="3">
                     </div>
                     <div>
                         <label for="name">Nom</label>
@@ -165,9 +178,9 @@
                     <div>
                         <label for="activated">Activated</label>
                         <select name="activated" id="activated">
-                            <option value="">Any</option>
+                            <option value="any">Any</option>
                             <option value="true">True</option>
-                            <option value="false">False</option>
+                            <option value="">False</option>
                         </select>
                     </div>
 
@@ -184,7 +197,7 @@
                     <h3>Update</h3>
                     <div>
                         <label for="id">Id<span class="rouge">*</span></label>
-                        <input type="text" name="id" id="id" required placeholder="3">
+                        <input type="number" name="id" id="id" required placeholder="3">
                     </div>
                     <div>
                         <label for="name">Nom</label>
@@ -224,7 +237,7 @@
                     <h3>Delete</h3>
                     <div>
                         <label for="id">Id<span class="rouge">*</span></label>
-                        <input type="text" name="id" id="id" required placeholder="3">
+                        <input type="number" name="id" id="id" required placeholder="3">
                     </div>
 
                     <div class="inp">
@@ -239,7 +252,7 @@
     <script src="https://code.jquery.com/jquery-3.4.1.slim.min.js" integrity="sha384-J6qa4849blE2+poT4WnyKhv5vZF5SrPo0iEjwBvKU7imGFAV0wwj1yYfoRSJoZ+n" crossorigin="anonymous"></script>
     <script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.0/dist/umd/popper.min.js" integrity="sha384-Q6E9RHvbIyZFJoft+2mJbHaEWldlvI9IOYy5n3zV9zzTtmI3UksdQRVvoxMfooAo" crossorigin="anonymous"></script>
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@4.4.1/dist/js/bootstrap.min.js" integrity="sha384-wfSDF2E50Y2D1uUdj0O3uMBJnjuUD4Ih7YwaYd1iqfktj0Uod8GCExl3Og8ifwB6" crossorigin="anonymous"></script>
-    <script src="script.js"></script>
+    <script src="..\script.js"></script>
     
 </body>
 </html>

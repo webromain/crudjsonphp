@@ -11,7 +11,7 @@
         "age": 32,
         "role": "Manager",
         "occupation": "Cyclisme",
-        "activated": true
+        "activated": false
     },
     {
         "name": "Charlie Bernard",
@@ -35,13 +35,6 @@
         "activated": false
     },
     {
-        "name": "Jean",
-        "age": 34,
-        "role": "Reader",
-        "occupation": "Designer",
-        "activated": true
-    },
-    {
         "name": "Gabriel Lambert",
         "age": 34,
         "role": "Commercial",
@@ -61,13 +54,6 @@
         "role": "Responsable op\u00e9rations",
         "occupation": "Photographie",
         "activated": true
-    },
-    {
-        "name": "Jasmine No\u00ebl",
-        "age": 28,
-        "role": "D\u00e9veloppeuse",
-        "occupation": "Danse",
-        "activated": false
     },
     {
         "name": "Kevin Rousseau",
@@ -91,13 +77,6 @@
         "activated": true
     },
     {
-        "name": "Bob Martin",
-        "age": 27,
-        "role": "D\u00e9veloppeur",
-        "occupation": "Peinture",
-        "activated": true
-    },
-    {
         "name": "Charlie Bernard",
         "age": 45,
         "role": "Chef d'\u00e9quipe",
@@ -116,7 +95,7 @@
         "age": 34,
         "role": "Reader",
         "occupation": "Designer",
-        "activated": true
+        "activated": false
     },
     {
         "name": "H\u00e9l\u00e8ne Dubois",
@@ -127,16 +106,15 @@
     },
     {
         "name": "Jean",
-        "age": "34",
+        "age": 34,
         "role": "Reader",
-        "occupation": "Designer",
+        "occupation": "Graphisme",
         "activated": true
     },
     {
-        "id": 19,
         "name": "Jean",
-        "age": "34",
-        "role": "Reader",
+        "age": 34,
+        "role": "Lecteur",
         "occupation": "Designer",
         "activated": true
     },
@@ -184,5 +162,106 @@
         "role": "Lecteur",
         "occupation": "Dev",
         "activated": true
+    },
+    {
+        "id": 26,
+        "name": "Christine",
+        "age": "58",
+        "role": "Reader",
+        "occupation": "Directeur Juridique",
+        "activated": true
+    },
+    {
+        "name": "Romain",
+        "age": 45,
+        "role": "IDK",
+        "occupation": "PC",
+        "activated": true
+    },
+    {
+        "id": 26,
+        "name": "lskdjf",
+        "age": "45",
+        "role": "IDK",
+        "occupation": "lsqkdf",
+        "activated": true
+    },
+    {
+        "id": 27,
+        "name": "lsdjf",
+        "age": "45",
+        "role": "lskjdqf",
+        "occupation": "Dev",
+        "activated": true
+    },
+    {
+        "id": 27,
+        "name": "Jean",
+        "age": "45",
+        "role": "jsldkqjf",
+        "occupation": "lsqkdf",
+        "activated": true
+    },
+    {
+        "id": 28,
+        "name": "Fiona",
+        "age": "32",
+        "role": "IDK",
+        "occupation": "designer",
+        "activated": true
+    },
+    {
+        "id": 29,
+        "name": "Fiona",
+        "age": "32",
+        "role": "IDK",
+        "occupation": "designer",
+        "activated": true
+    },
+    {
+        "id": 30,
+        "name": "Fiona",
+        "age": "32",
+        "role": "IDK",
+        "occupation": "designer",
+        "activated": true
+    },
+    {
+        "id": 31,
+        "name": "Fiona",
+        "age": "32",
+        "role": "IDK",
+        "occupation": "designer",
+        "activated": true
+    },
+    {
+        "id": 32,
+        "name": "Fiona",
+        "age": "32",
+        "role": "IDK",
+        "occupation": "designer",
+        "activated": true
+    },
+    {
+        "name": "Carlito",
+        "age": 32,
+        "role": "IDK",
+        "occupation": "designer",
+        "activated": true
+    },
+    {
+        "id": 34,
+        "name": "Fiona",
+        "age": "32",
+        "role": "IDK",
+        "occupation": "designer",
+        "activated": true
+    },
+    {
+        "name": "Marccc",
+        "age": 45,
+        "role": "lqksjdf",
+        "occupation": "lsqkdf",
+        "activated": false
     }
 ]

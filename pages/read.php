@@ -4,7 +4,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.4.1/dist/css/bootstrap.min.css" integrity="sha384-Vkoo8x4CGsO3+Hhxv8T/Q5PaXtkKtu6ug5TOeNV6gBiFeWPGFN9MuhOf23Q9Ifjh" crossorigin="anonymous">
-    <link rel="stylesheet" href="style.css">
+    <link rel="stylesheet" href="..\style.css">
     <title>CRUD</title>
 </head>
 <body>
@@ -22,14 +22,16 @@
         </thead>
         <tbody>
             <?php
-                function _list() {
+
+                function _read($id = int, $name = str, $age = int, $role = str, $occupation = str, $activated = bool) {
+
                     //Charger le fichier JSON
-                    if (!file_exists("bdd.json")) {
+                    if (!file_exists("..\bdd.json")) {
                         echo "<tr><td colspan='6'>Erreur : Le fichier bdd.json n'existe pas.</td></tr>";
                         return;
                     }
 
-                    $json = file_get_contents("bdd.json");
+                    $json = file_get_contents("..\bdd.json");
                     $parse = json_decode($json);
 
                     // Vérifier si le JSON est valide
@@ -38,27 +40,164 @@
                         return;
                     }
 
+                    // Vérification si l'ID existe dans le JSON
+                    if ((int)$id+1 > count($parse)) {
+                        echo "<tr><td colspan='6'>Erreur : ID non trouvé.</td></tr>";
+                        return;
+                    }
+
                     $i = 0;
-                
-                    foreach ($parse as $valeur) {
+                    $tableau = [];
+                    $tableauTampon = [];
+
+                    if ($id == null && $name == null && $age == null && $role == null && $occupation == null && $activated == "any") {
+
+                        header("location: ..\index.php");
+
+                        return;
+
+                    };
+
+                    //Si l'identifiant est défini, afficher la ligne correspondante et arrêter l'exécution
+                    if ($id != null) {
                         echo "<tr>";
-                        echo "<th scope='row'>". $i. "</th>";
+                        echo "<th scope='row'>". htmlspecialchars($id). "</th>";
+                        echo "<td>". htmlspecialchars($parse[$id]->name). "</td>";
+                        echo "<td>". htmlspecialchars($parse[$id]->age). "</td>";
+                        echo "<td>". htmlspecialchars($parse[$id]->role). "</td>";
+                        echo "<td>". htmlspecialchars($parse[$id]->occupation). "</td>";
+                        echo "<td>". htmlspecialchars($parse[$id]->activated)."</td>";
+                        echo "</tr>";
+                        return;
+                    }
+
+                    // Si un nom est fourni, rechercher toutes les correspondances
+                    if ($name != null) {
+                        foreach ($parse as $valeur) {
+                            if (isset($valeur->name) && $name === $valeur->name) {
+                                //Enregistrer l'id de la valeur et l'ajouter au dico
+                                $valeur->index = $i;
+                                // Ajouter l'objet correspondant directement dans le tableau
+                                $tableau[] = $valeur;
+                            }
+                            $i++;
+                        }
+                        $i = 0;
+                    }
+
+                    if ($age != null ) {
+                        if ($tableau != null) {
+                            foreach ($tableau as $valeur) {
+                                if (isset($valeur->age) && $age == $valeur->age) {
+                                    $tableauTampon[] = $valeur;
+                                }
+                            }
+                            $tableau = $tableauTampon;
+                        }
+                        else {
+                            foreach ($parse as $valeur) {
+                                if (isset($valeur->age) && $age == $valeur->age) {
+                                    $valeur->index = $i;
+                                    $tableau[] = $valeur;
+                                }
+                                $i++;
+                            }
+                        }
+                        $i = 0;
+                        $tableauTampon = array();
+                    }
+
+                    if ($role != null ) {
+                        if ($tableau != null) {
+                            foreach ($tableau as $valeur) {
+                                if (isset($valeur->role) && $role === $valeur->role) {
+                                    $tableauTampon[] = $valeur;
+                                }
+                            }
+                            $tableau = $tableauTampon;
+                        }
+                        else {
+                            foreach ($parse as $valeur) {
+                                if (isset($valeur->role) && $role === $valeur->role) {
+                                    $valeur->index = $i;
+                                    $tableau[] = $valeur;
+                                }
+                                $i++;
+                            }
+                        }
+                        $i = 0;
+                        $tableauTampon = array();
+                    }
+
+                    if ($occupation != null ) {
+                        if ($tableau != null) {
+                            foreach ($tableau as $valeur) {
+                                if (isset($valeur->occupation) && $occupation === $valeur->occupation) {
+                                    $tableauTampon[] = $valeur;
+                                }
+                            }
+                            $tableau = $tableauTampon;
+                        }
+                        else {
+                            foreach ($parse as $valeur) {
+                                if (isset($valeur->occupation) && $occupation === $valeur->occupation) {
+                                    $valeur->index = $i;
+                                    $tableau[] = $valeur;
+                                }
+                                $i++;
+                            }
+                        }
+                        $i = 0;
+                        $tableauTampon = array();
+                    }
+
+                    if ($activated == "true" || $activated == "") {
+                        if ($tableau != null) {
+                            foreach ($tableau as $valeur) {
+                                if (isset($valeur->activated) && $activated == $valeur->activated) {
+                                    $tableauTampon[] = $valeur;
+                                }
+                            }
+                            $tableau = $tableauTampon;
+                        }
+                        else {
+                            foreach ($parse as $valeur) {
+                                if (isset($valeur->activated) && $activated == $valeur->activated) {
+                                    $valeur->index = $i;
+                                    $tableau[] = $valeur;
+                                }
+                                $i++;
+                            }
+                        }
+                        $i = 0;
+                        $tableauTampon = array();
+                    }
+
+                    $i = 0;
+                    //Afficher toutes les entrées du tableau avec les filtres
+                    foreach ($tableau as $valeur) {
+                        echo "<tr>";
+                        echo "<th scope='row'>". htmlspecialchars($valeur->index ?? 'N/A'). "</th>";
                         echo "<td>". htmlspecialchars($valeur->name ?? 'N/A'). "</td>";
-                            echo "<td>". htmlspecialchars($valeur->age ?? 'N/A'). "</td>";
-                            echo "<td>". htmlspecialchars($valeur->role ?? 'N/A'). "</td>";
-                            echo "<td>". htmlspecialchars($valeur->occupation ?? 'N/A'). "</td>";
-                            echo "<td>". htmlspecialchars($valeur->activated ?? 'N/A'). "</td>";
-                            echo "</tr>";
+                        echo "<td>". htmlspecialchars($valeur->age ?? 'N/A'). "</td>";
+                        echo "<td>". htmlspecialchars($valeur->role ?? 'N/A'). "</td>";
+                        echo "<td>". htmlspecialchars($valeur->occupation ?? 'N/A'). "</td>";
+                        echo "<td>". htmlspecialchars($valeur->activated ?? 'N/A'). "</td>";
+                        echo "</tr>";
                         $i++;
                     }
 
-                    // Encodage en JSON et sauvegarde dans le fichier
-                    $contenu_json = json_encode($parse, JSON_PRETTY_PRINT);
-                    file_put_contents("bdd.json", $contenu_json);
                 }
 
-                _list();
-            
+                _read(
+                    $_POST['id'] ?? null,
+                    $_POST['name'] ?? null,
+                    $_POST['age'] ?? null,
+                    $_POST['role'] ?? null,
+                    $_POST['occupation'] ?? null,
+                    $_POST['activated'] ?? null
+                );
+
             ?>
         </tbody>
     </table>
@@ -67,7 +206,7 @@
         <div>
             <button type="button" class="btn btn-secondary" id="create-btn"><span id="create-btn">CREATE</span></button>
             <div class="submenu" id="create-submenu">
-                <form method="post" action="pages\create.php">
+                <form method="post" action="create.php">
                     <h3>Add</h3>
                     <div>
                         <label for="name">Nom<span class="rouge">*</span></label>
@@ -102,7 +241,7 @@
 
             <button type="button" class="btn btn-secondary" id="read-btn">READ</button>
             <div class="submenu" id="read-submenu">
-                <form method="post" action="pages\read.php">
+                <form method="post" action="read.php">
                     <h3>List</h3>
                     <div>
                         <label for="id">Id</label>
@@ -132,17 +271,17 @@
                             <option value="">False</option>
                         </select>
                     </div>
-                        
+
                     <div class="inp">
-                            <input type="reset" value="Effacer">
-                            <input type="submit" value="Post" class="animate__animated animate__pulse animate__infinite animate__slow">
+                        <input type="reset" value="Effacer">
+                        <input type="submit" value="Post" class="animate__animated animate__pulse animate__infinite animate__slow">
                     </div>
                 </form>
             </div>
 
             <button type="button" class="btn btn-secondary" id="update-btn">UPDATE</button>
             <div class="submenu" id="update-submenu">
-                <form method="post" action="pages\update.php">
+                <form method="post" action="update.php">
                     <h3>Update</h3>
                     <div>
                         <label for="id">Id<span class="rouge">*</span></label>
@@ -182,7 +321,7 @@
 
             <button type="button" class="btn btn-secondary" id="delete-btn">DELETE</button>
             <div class="submenu" id="delete-submenu" >
-                <form method="post" action="pages\delete.php">
+                <form method="post" action="delete.php">
                     <h3>Delete</h3>
                     <div>
                         <label for="id">Id<span class="rouge">*</span></label>
@@ -201,7 +340,7 @@
     <script src="https://code.jquery.com/jquery-3.4.1.slim.min.js" integrity="sha384-J6qa4849blE2+poT4WnyKhv5vZF5SrPo0iEjwBvKU7imGFAV0wwj1yYfoRSJoZ+n" crossorigin="anonymous"></script>
     <script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.0/dist/umd/popper.min.js" integrity="sha384-Q6E9RHvbIyZFJoft+2mJbHaEWldlvI9IOYy5n3zV9zzTtmI3UksdQRVvoxMfooAo" crossorigin="anonymous"></script>
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@4.4.1/dist/js/bootstrap.min.js" integrity="sha384-wfSDF2E50Y2D1uUdj0O3uMBJnjuUD4Ih7YwaYd1iqfktj0Uod8GCExl3Og8ifwB6" crossorigin="anonymous"></script>
-    <script src="script.js"></script>
+    <script src="..\script.js"></script>
     
 </body>
 </html>

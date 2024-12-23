@@ -30,12 +30,12 @@
                 $activated = $_POST["activated"];
 
                 //Charger le fichier JSON
-                if (!file_exists("..\bdd.json")) {
+                if (!file_exists(__DIR__ . "/../bdd.json")) {
                     echo "<tr><td colspan='6'>Erreur : Le fichier bdd.json n'existe pas.</td></tr>";
                     return;
                 }
 
-                $json = file_get_contents("..\bdd.json");
+                $json = file_get_contents(__DIR__ . "/../bdd.json");
                 $parse = json_decode($json);
 
                 // Vérifier si le JSON est valide
@@ -63,7 +63,7 @@
 
                     // Encodage en JSON et sauvegarde dans le fichier
                     $contenu_json = json_encode($parse, JSON_PRETTY_PRINT);
-                    file_put_contents("..\bdd.json", $contenu_json);
+                    file_put_contents(__DIR__ . "/../bdd.json", $contenu_json);
 
                     echo "<p class='message'>ID.#". count($parse)-1 ." was created successfully.</p>";
                 }
@@ -77,7 +77,7 @@
                     $_POST['activated']
                 );
 
-                $json = file_get_contents("..\bdd.json");
+                $json = file_get_contents(__DIR__ . "/../bdd.json");
                 $parse = json_decode($json);
                 $i = 0;
                 

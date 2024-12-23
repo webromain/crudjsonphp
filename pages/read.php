@@ -26,12 +26,12 @@
                 function _read($id = int, $name = str, $age = int, $role = str, $occupation = str, $activated = bool) {
 
                     //Charger le fichier JSON
-                    if (!file_exists("..\bdd.json")) {
+                    if (!file_exists(__DIR__ . "/../bdd.json")) {
                         echo "<tr><td colspan='6'>Erreur : Le fichier bdd.json n'existe pas.</td></tr>";
                         return;
                     }
 
-                    $json = file_get_contents("..\bdd.json");
+                    $json = file_get_contents(__DIR__ . "/../bdd.json");
                     $parse = json_decode($json);
 
                     // Vérifier si le JSON est valide
@@ -47,7 +47,7 @@
 
                     if ($id == null && $name == null && $age == null && $role == null && $occupation == null && $activated == "any") {
 
-                        header("location: ..\index.php");
+                        header("location: ../index.php");
 
                         return;
 

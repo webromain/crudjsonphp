@@ -106,7 +106,7 @@
                     <h3>List</h3>
                     <div>
                         <label for="id">Id</label>
-                        <input type="number" name="id" id="id" placeholder="3">
+                        <input type="text" name="id" id="id" placeholder="3,5,14,1,...">
                     </div>
                     <div>
                         <label for="name">Nom</label>
@@ -186,7 +186,7 @@
                     <h3>Delete</h3>
                     <div>
                         <label for="id">Id<span class="rouge">*</span></label>
-                        <input type="number" name="id" id="id" required placeholder="3">
+                        <input type="text" name="id" id="id" required placeholder="3,5,14,1,...">
                     </div>
 
                     <div class="inp">

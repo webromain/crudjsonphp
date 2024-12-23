@@ -46,6 +46,11 @@
 
                 function _create($parse, $name = str, $age = int, $role = str, $occupation = str, $activated = bool){
 
+                    if (count($parse) > 50) {
+                        echo "<p class='message'> Pour des raisons de sécurité la bdd ne doit pas contenir plus de 50 personnes</p>";
+                        return;
+                    }
+
                     if ($activated == "true") {
                         $activated = true;
                     }
@@ -60,7 +65,7 @@
                     $contenu_json = json_encode($parse, JSON_PRETTY_PRINT);
                     file_put_contents("..\bdd.json", $contenu_json);
 
-                    echo "<p class='message'>ID.#". count($parse)-2 ." was created successfully.</p>";
+                    echo "<p class='message'>ID.#". count($parse)-1 ." was created successfully.</p>";
                 }
 
                 _create(
@@ -135,7 +140,7 @@
                     <h3>List</h3>
                     <div>
                         <label for="id">Id</label>
-                        <input type="number" name="id" id="id" placeholder="3">
+                        <input type="text" name="id" id="id" placeholder="3,5,14,1,...">
                     </div>
                     <div>
                         <label for="name">Nom</label>
@@ -215,7 +220,7 @@
                     <h3>Delete</h3>
                     <div>
                         <label for="id">Id<span class="rouge">*</span></label>
-                        <input type="number" name="id" id="id" required placeholder="3">
+                        <input type="text" name="id" id="id" required placeholder="3,5,14,1,...">
                     </div>
 
                     <div class="inp">

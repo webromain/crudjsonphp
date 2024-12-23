@@ -40,15 +40,10 @@
                         return;
                     }
 
-                    // Vérification si l'ID existe dans le JSON
-                    if ((int)$id+1 > count($parse)) {
-                        echo "<tr><td colspan='6'>Erreur : ID non trouvé.</td></tr>";
-                        return;
-                    }
-
                     $i = 0;
                     $tableau = [];
                     $tableauTampon = [];
+                    $erreurs = [];
 
                     if ($id == null && $name == null && $age == null && $role == null && $occupation == null && $activated == "any") {
 
@@ -57,38 +52,45 @@
                         return;
 
                     };
-
+                    
                     //Si l'identifiant est défini, afficher la ligne correspondante et arrêter l'exécution
                     if ($id != null) {
-                        echo "<tr>";
-                        echo "<th scope='row'>". htmlspecialchars($id). "</th>";
-                        echo "<td>". htmlspecialchars($parse[$id]->name). "</td>";
-                        echo "<td>". htmlspecialchars($parse[$id]->age). "</td>";
-                        echo "<td>". htmlspecialchars($parse[$id]->role). "</td>";
-                        echo "<td>". htmlspecialchars($parse[$id]->occupation). "</td>";
-                        echo "<td>". htmlspecialchars($parse[$id]->activated)."</td>";
-                        echo "</tr>";
-                        return;
+                        if (preg_match("/^\d+(,\s?\d+)*$/", $id)) {
+                            $id = str_replace(' ', '', $id); // Supprime les espaces éventuels
+                            $id = explode(",", $id);
+                        }
+                        else {
+                            echo "<p class='message'>Erreur : Caractère incorrect</p>";
+                            return;
+                        }
+
+                        foreach ($id as $valeur) {
+                            // Vérification si l'ID existe dans le JSON
+                            if ($valeur > (count($parse)-1)) {
+                                $erreurs[] = $valeur;
+                            }
+                            elseif (in_array($valeur, $tableau)) {
+                                continue;
+                            }
+                            else{
+                                $tableau[] = $parse[$valeur];
+                                $tableau[count($tableau)-1]->index = $valeur;
+                            }
+                        }
+                        if ($erreurs != null) {
+                            echo "<p class='message'>Erreur : Un ou plusieurs ID n'est/ne sont pas correct<br>";
+                            foreach ($erreurs as $valeur) {
+                                echo htmlspecialchars($valeur). ",";
+                            }
+                            echo "</p>";
+                        }
                     }
 
                     // Si un nom est fourni, rechercher toutes les correspondances
                     if ($name != null) {
-                        foreach ($parse as $valeur) {
-                            if (isset($valeur->name) && $name === $valeur->name) {
-                                //Enregistrer l'id de la valeur et l'ajouter au dico
-                                $valeur->index = $i;
-                                // Ajouter l'objet correspondant directement dans le tableau
-                                $tableau[] = $valeur;
-                            }
-                            $i++;
-                        }
-                        $i = 0;
-                    }
-
-                    if ($age != null ) {
                         if ($tableau != null) {
                             foreach ($tableau as $valeur) {
-                                if (isset($valeur->age) && $age == $valeur->age) {
+                                if (isset($valeur->name) && $name === strtolower($valeur->name)) {
                                     $tableauTampon[] = $valeur;
                                 }
                             }
@@ -96,7 +98,29 @@
                         }
                         else {
                             foreach ($parse as $valeur) {
-                                if (isset($valeur->age) && $age == $valeur->age) {
+                                if (isset($valeur->name) && $name === strtolower($valeur->name)) {
+                                    $valeur->index = $i;
+                                    $tableau[] = $valeur;
+                                }
+                                $i++;
+                            }
+                        }
+                        $i = 0;
+                        $tableauTampon = array();
+                    }
+
+                    if ($age != null ) {
+                        if ($tableau != null) {
+                            foreach ($tableau as $valeur) {
+                                if (isset($valeur->age) && $age == strtolower($valeur->age)) {
+                                    $tableauTampon[] = $valeur;
+                                }
+                            }
+                            $tableau = $tableauTampon;
+                        }
+                        else {
+                            foreach ($parse as $valeur) {
+                                if (isset($valeur->age) && $age == strtolower($valeur->age)) {
                                     $valeur->index = $i;
                                     $tableau[] = $valeur;
                                 }
@@ -110,7 +134,7 @@
                     if ($role != null ) {
                         if ($tableau != null) {
                             foreach ($tableau as $valeur) {
-                                if (isset($valeur->role) && $role === $valeur->role) {
+                                if (isset($valeur->role) && $role === strtolower($valeur->role)) {
                                     $tableauTampon[] = $valeur;
                                 }
                             }
@@ -118,7 +142,7 @@
                         }
                         else {
                             foreach ($parse as $valeur) {
-                                if (isset($valeur->role) && $role === $valeur->role) {
+                                if (isset($valeur->role) && $role === strtolower($valeur->role)) {
                                     $valeur->index = $i;
                                     $tableau[] = $valeur;
                                 }
@@ -132,7 +156,7 @@
                     if ($occupation != null ) {
                         if ($tableau != null) {
                             foreach ($tableau as $valeur) {
-                                if (isset($valeur->occupation) && $occupation === $valeur->occupation) {
+                                if (isset($valeur->occupation) && $occupation === strtolower($valeur->occupation)) {
                                     $tableauTampon[] = $valeur;
                                 }
                             }
@@ -140,7 +164,7 @@
                         }
                         else {
                             foreach ($parse as $valeur) {
-                                if (isset($valeur->occupation) && $occupation === $valeur->occupation) {
+                                if (isset($valeur->occupation) && $occupation === strtolower($valeur->occupation)) {
                                     $valeur->index = $i;
                                     $tableau[] = $valeur;
                                 }
@@ -154,7 +178,7 @@
                     if ($activated == "true" || $activated == "") {
                         if ($tableau != null) {
                             foreach ($tableau as $valeur) {
-                                if (isset($valeur->activated) && $activated == $valeur->activated) {
+                                if (isset($valeur->activated) && $activated == strtolower($valeur->activated)) {
                                     $tableauTampon[] = $valeur;
                                 }
                             }
@@ -173,7 +197,6 @@
                         $tableauTampon = array();
                     }
 
-                    $i = 0;
                     //Afficher toutes les entrées du tableau avec les filtres
                     foreach ($tableau as $valeur) {
                         echo "<tr>";
@@ -184,18 +207,17 @@
                         echo "<td>". htmlspecialchars($valeur->occupation ?? 'N/A'). "</td>";
                         echo "<td>". htmlspecialchars($valeur->activated ?? 'N/A'). "</td>";
                         echo "</tr>";
-                        $i++;
                     }
 
                 }
 
                 _read(
-                    $_POST['id'] ?? null,
-                    $_POST['name'] ?? null,
-                    $_POST['age'] ?? null,
-                    $_POST['role'] ?? null,
-                    $_POST['occupation'] ?? null,
-                    $_POST['activated'] ?? null
+                    strtolower($_POST['id']) ?? null,
+                    strtolower($_POST['name']) ?? null,
+                    strtolower($_POST['age']) ?? null,
+                    strtolower($_POST['role']) ?? null,
+                    strtolower($_POST['occupation']) ?? null,
+                    strtolower($_POST['activated']) ?? null
                 );
 
             ?>
@@ -245,7 +267,7 @@
                     <h3>List</h3>
                     <div>
                         <label for="id">Id</label>
-                        <input type="number" name="id" id="id" placeholder="3">
+                        <input type="text" name="id" id="id" placeholder="3,5,14,1,...">
                     </div>
                     <div>
                         <label for="name">Nom</label>
@@ -325,7 +347,7 @@
                     <h3>Delete</h3>
                     <div>
                         <label for="id">Id<span class="rouge">*</span></label>
-                        <input type="number" name="id" id="id" required placeholder="3">
+                        <input type="text" name="id" id="id" required placeholder="3,5,14,1,...">
                     </div>
 
                     <div class="inp">

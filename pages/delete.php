@@ -38,22 +38,42 @@
                     return;
                 }
 
-                function _delete($parse, $id = int){
+                function _delete($parse, $ids = str){
 
-                    // Vérification si l'ID existe dans le JSON
-                    if ($id+1 > count($parse)) {
-                        echo "<p class='message'>Erreur : ID non trouvé.</p>";
+                    $compte = count($parse);
+
+                    if (preg_match("/^\d+(,\s?\d+)*$/", $ids)) {
+                        $ids = str_replace(' ', '', $ids); // Supprime les espaces éventuels
+                        $id = explode(",", $ids);
+                    }
+                    else {
+                        echo "<p class='message'>Erreur : Caractère incorrect</p>";
                         return;
                     }
 
-                    // Supprimer l'id demandé
-                    array_splice($parse, $id, 1);
+                    if (($compte - count($ids)) < 21) {
+                        echo "<p class='message'> Pour des raisons de sécurité la bdd ne doit peut pas contenir moins de 20 personnes</p>";
+                        return;
+                    }
+
+                    foreach ($ids as $valeur) {
+                        // Vérification si l'ID existe dans le JSON
+                        if ($valeur > $compte-1) { 
+                            echo "<p class='message'>Erreur : ID.#". $valeur. " non trouvé.</p>";
+                            return;
+                        }
+                        else{
+                            // Supprimer l'id demandé
+                            array_splice($parse, $valeur, 1);
+                        }
+                    }
 
                     // Encodage en JSON et sauvegarde dans le fichier
                     $contenu_json = json_encode($parse, JSON_PRETTY_PRINT);
                     file_put_contents("..\bdd.json", $contenu_json);
 
-                    echo "<p class='message'>ID.#". $id ." was deleted successfully.</p>";
+                    echo "<p class='message'>ID.#". " was deleted successfully.</p>";
+                    // <?= foreach ($ids as $valeur) {$valeur}
                 }
 
                 _delete(
@@ -124,7 +144,7 @@
                     <h3>List</h3>
                     <div>
                         <label for="id">Id</label>
-                        <input type="number" name="id" id="id" placeholder="3">
+                        <input type="text" name="id" id="id" placeholder="3,5,14,1,...">
                     </div>
                     <div>
                         <label for="name">Nom</label>
@@ -204,7 +224,7 @@
                     <h3>Delete</h3>
                     <div>
                         <label for="id">Id<span class="rouge">*</span></label>
-                        <input type="number" name="id" id="id" required placeholder="3">
+                        <input type="text" name="id" id="id" required placeholder="3,5,14,1,...">
                     </div>
 
                     <div class="inp">

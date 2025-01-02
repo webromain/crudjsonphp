@@ -44,14 +44,6 @@
                     $tableau = [];
                     $tableauTampon = [];
                     $erreurs = [];
-
-                    if ($id == null && $name == null && $age == null && $role == null && $occupation == null && $activated == "any") {
-
-                        header("location: ../index.php");
-
-                        return;
-
-                    };
                     
                     //Si l'identifiant est défini, afficher la ligne correspondante et arrêter l'exécution
                     if ($id != null) {
@@ -211,6 +203,14 @@
 
                 }
 
+                if ($_POST['id'] == null && $_POST['name'] == null && $_POST['age'] == null && $_POST['role'] == null && $_POST['occupation'] == null && $_POST['activated'] == "any") {
+
+                    header("location: ../index.php");
+
+                    return;
+
+                };
+
                 _read(
                     strtolower($_POST['id']) ?? null,
                     strtolower($_POST['name']) ?? null,
@@ -328,7 +328,7 @@
                     <div>
                         <label for="activated">Activated</label>
                         <select name="activated" id="activated">
-                            <option value="">Any</option>
+                            <option value="any">Any</option>
                             <option value="true">True</option>
                             <option value="false">False</option>
                         </select>

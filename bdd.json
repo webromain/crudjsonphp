@@ -187,7 +187,7 @@
         "age": 34,
         "role": "Reader",
         "occupation": "Graphisme",
-        "activated": true
+        "activated": false
     },
     {
         "name": "Jean",

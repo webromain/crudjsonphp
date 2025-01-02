@@ -58,7 +58,7 @@
                     if ($occupation == "") {
                         $occupation = $parse[$id]->occupation;
                     }
-                    if ($activated == "") {
+                    if ($activated == "any") {
                         $activated = $parse[$id]->activated;
                     }
                     if ($activated == "true") {
@@ -218,7 +218,7 @@
                     <div>
                         <label for="activated">Activated</label>
                         <select name="activated" id="activated">
-                            <option value="">Any</option>
+                            <option value="any">Any</option>
                             <option value="true">True</option>
                             <option value="false">False</option>
                         </select>

@@ -205,7 +205,7 @@
 
                 if ($_POST['id'] == null && $_POST['name'] == null && $_POST['age'] == null && $_POST['role'] == null && $_POST['occupation'] == null && $_POST['activated'] == "any") {
 
-                    header("location: ../index.php");
+                    header("location: /../crud/index.php");
 
                     return;
 

@@ -204,21 +204,34 @@
                 }
 
                 if ($_POST['id'] == null && $_POST['name'] == null && $_POST['age'] == null && $_POST['role'] == null && $_POST['occupation'] == null && $_POST['activated'] == "any") {
+                    
+                    $json = file_get_contents(__DIR__ . "/../bdd.json");
+                    $parse = json_decode($json);
+                    $i = 0;
+                
+                    foreach ($parse as $valeur) {
+                        echo "<tr>";
+                        echo "<th scope='row'>". $i. "</th>";
+                        echo "<td>". htmlspecialchars($valeur->name ?? 'N/A'). "</td>";
+                        echo "<td>". htmlspecialchars($valeur->age ?? 'N/A'). "</td>";
+                        echo "<td>". htmlspecialchars($valeur->role ?? 'N/A'). "</td>";
+                        echo "<td>". htmlspecialchars($valeur->occupation ?? 'N/A'). "</td>";
+                        echo "<td>". htmlspecialchars($valeur->activated ?? 'N/A'). "</td>";
+                        echo "</tr>";
+                        $i++;
+                    }
 
-                    header("location: /../crud/index.php");
-
-                    return;
-
-                };
-
-                _read(
-                    strtolower($_POST['id']) ?? null,
-                    strtolower($_POST['name']) ?? null,
-                    strtolower($_POST['age']) ?? null,
-                    strtolower($_POST['role']) ?? null,
-                    strtolower($_POST['occupation']) ?? null,
-                    strtolower($_POST['activated']) ?? null
-                );
+                }
+                else {
+                    _read(
+                        $_POST['id'] ?? null,
+                        strtolower($_POST['name']) ?? null,
+                        $_POST['age'] ?? null,
+                        strtolower($_POST['role']) ?? null,
+                        strtolower($_POST['occupation']) ?? null,
+                        $_POST['activated']
+                    );
+                }
 
             ?>
         </tbody>

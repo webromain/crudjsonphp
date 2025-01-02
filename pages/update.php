@@ -91,7 +91,7 @@
                     $_POST['age'] ?? null,
                     $_POST['role'] ?? null,
                     $_POST['occupation'] ?? null,
-                    $_POST['activated'] ?? null
+                    $_POST['activated']
                 );
 
                 $json = file_get_contents(__DIR__ . "/../bdd.json");
@@ -102,11 +102,11 @@
                     echo "<tr>";
                     echo "<th scope='row'>". $i. "</th>";
                     echo "<td>". htmlspecialchars($valeur->name ?? 'N/A'). "</td>";
-                        echo "<td>". htmlspecialchars($valeur->age ?? 'N/A'). "</td>";
-                        echo "<td>". htmlspecialchars($valeur->role ?? 'N/A'). "</td>";
-                        echo "<td>". htmlspecialchars($valeur->occupation ?? 'N/A'). "</td>";
-                        echo "<td>". htmlspecialchars($valeur->activated ?? 'N/A'). "</td>";
-                        echo "</tr>";
+                    echo "<td>". htmlspecialchars($valeur->age ?? 'N/A'). "</td>";
+                    echo "<td>". htmlspecialchars($valeur->role ?? 'N/A'). "</td>";
+                    echo "<td>". htmlspecialchars($valeur->occupation ?? 'N/A'). "</td>";
+                    echo "<td>". htmlspecialchars($valeur->activated ?? 'N/A'). "</td>";
+                    echo "</tr>";
                     $i++;
                 }
 

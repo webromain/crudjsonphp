@@ -240,28 +240,12 @@
         "activated": true
     },
     {
-        "id": 32,
-        "name": "Jean",
-        "age": "34",
-        "role": "Reader",
-        "occupation": "Graphisme",
-        "activated": true
-    },
-    {
         "id": 33,
         "name": "Eude",
         "age": 34,
         "role": "Reader",
         "occupation": "Graphisme",
         "activated": false
-    },
-    {
-        "id": 34,
-        "name": "Jean",
-        "age": 34,
-        "role": "Reader",
-        "occupation": "Graphisme",
-        "activated": true
     },
     {
         "id": 35,

@@ -43,7 +43,7 @@
                 <input type="hidden" name="csrf_token" value="<?php echo htmlspecialchars($csrfToken); ?>">
                 <div>
                     <label for="id">Id</label>
-                    <input type="text" name="id" id="id" placeholder="3,5,14,1,...">
+                    <input type="text" name="id" id="id" placeholder="3">
                 </div>
                 <div>
                     <label for="name">Nom</label>

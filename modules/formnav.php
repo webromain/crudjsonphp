@@ -1,10 +1,10 @@
+<?php require_once dirname(__DIR__) . '/config/path.php'; ?>
 <section class="secbtns">
     <div>
-        <button type="button" class="btn btn-secondary" id="create-btn"><span id="create-btn">CREATE</span></button>
+        <button type="button" class="btn btn-secondary" id="create-btn">CREATE</button>
         <div class="submenu" id="create-submenu">
-            <form method="post" action="controllers/create.php">
+            <form method="post" action="<?php echo BASE_URL . "controllers/create.php"; ?>">
                 <h3>Add</h3>
-                <input type="hidden" name="csrf_token" value="<?php echo htmlspecialchars($csrfToken); ?>">
                 <div>
                     <label for="name">Nom<span class="rouge">*</span></label>
                     <input type="text" name="name" id="name" required placeholder="Jean">
@@ -38,9 +38,8 @@
 
         <button type="button" class="btn btn-secondary" id="read-btn">READ</button>
         <div class="submenu" id="read-submenu">
-            <form method="get" action="../index.php">
+            <form method="get" action="<?php echo BASE_URL . 'index.php'; ?>">
                 <h3>List</h3>
-                <input type="hidden" name="csrf_token" value="<?php echo htmlspecialchars($csrfToken); ?>">
                 <div>
                     <label for="id">Id</label>
                     <input type="text" name="id" id="id" placeholder="3">
@@ -79,9 +78,8 @@
 
         <button type="button" class="btn btn-secondary" id="update-btn">UPDATE</button>
         <div class="submenu" id="update-submenu">
-            <form method="post" action="controllers/update.php">
+            <form method="post" action="<?php echo BASE_URL . 'controllers/update.php'; ?>">
                 <h3>Update</h3>
-                <input type="hidden" name="csrf_token" value="<?php echo htmlspecialchars($csrfToken); ?>">
                 <div>
                     <label for="id">Id<span class="rouge">*</span></label>
                     <input type="number" name="id" id="id" required placeholder="3">
@@ -120,9 +118,8 @@
 
         <button type="button" class="btn btn-secondary" id="delete-btn">DELETE</button>
         <div class="submenu" id="delete-submenu" >
-            <form method="post" action="controllers/delete.php">
+            <form method="post" action="<?php echo BASE_URL . 'controllers/delete.php'; ?>">
                 <h3>Delete</h3>
-                <input type="hidden" name="csrf_token" value="<?php echo htmlspecialchars($csrfToken); ?>">
                 <div>
                     <label for="id">Id<span class="rouge">*</span></label>
                     <input type="text" name="id" id="id" required placeholder="3,5,14,1,...">

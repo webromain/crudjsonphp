@@ -75,3 +75,14 @@ form div{
     padding: 0.3rem;
     width: 4rem;
 }
+
+@media screen and (max-width: 600px){
+    .secbtns{
+        right: auto;
+        left: 0;
+    }
+    .submenu{
+        right: auto;
+        width: 90%;
+    }
+}

@@ -12,9 +12,13 @@ const deleteSubmenu = document.getElementById('delete-submenu');
 createBtn.addEventListener('click', function () {
     // Basculer la classe "active" sur le sous-menu
     createSubmenu.classList.toggle('active');
+    console.log("test1");
     readSubmenu.classList.remove('active');
+    console.log("test2");
     updateSubmenu.classList.remove('active');
+    console.log("test3");
     deleteSubmenu.classList.remove('active');
+    console.log("test4");
 });
 
 readBtn.addEventListener('click', function () {

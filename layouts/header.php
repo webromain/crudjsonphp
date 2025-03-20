@@ -1,5 +1,5 @@
 <body>
-    
+
     <table class="table table-striped table-dark">
         <thead class="top">
             <tr>

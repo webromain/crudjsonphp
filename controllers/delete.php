@@ -1,6 +1,8 @@
 <?php
 
 require_once '../config/db.php';
+require_once '../config/path.php';
+session_start();
 
 function _delete($parse, $ids) {
 
@@ -8,13 +10,15 @@ function _delete($parse, $ids) {
         $ids = str_replace(' ', '', $ids); // Supprime les espaces éventuels
         $idArray = explode(",", $ids);
     } else {
-        echo "<p class='message'>Erreur : Caractère incorrect</p>";
-        return;
+        $_SESSION['message'] = "Erreur : Caractère incorrect";
+        header('Location: ' . BASE_URL . 'index.php');
+        exit;
     }
 
     if ((count($parse) - count($idArray)) < 21) {
-        echo "<p class='message'>Pour des raisons de sécurité, la BDD ne doit pas contenir moins de 20 personnes</p>";
-        return;
+        $_SESSION['message'] = "Pour des raisons de sécurité, la BDD ne doit pas contenir moins de 20 personnes";
+        header('Location: ' . BASE_URL . 'index.php');
+        exit;
     }
 
     foreach ($idArray as $valeur) {
@@ -28,8 +32,9 @@ function _delete($parse, $ids) {
             }
         }
         if (!$found) {
-            echo "<p class='message'>Erreur : ID.#". htmlspecialchars($valeur). " non trouvé.</p>";
-            return;
+            $_SESSION['message'] = "ID.#" . htmlspecialchars($valeur) . " a été créé avec succès.";
+            header('Location: ' . BASE_URL . 'index.php');
+            exit;
         }
     }
 
@@ -37,9 +42,10 @@ function _delete($parse, $ids) {
     $contenu_json = json_encode($parse, JSON_PRETTY_PRINT);
     file_put_contents(__DIR__ . "/../bdd.json", $contenu_json);
 
-    echo "<p class='message'>ID.#". htmlspecialchars($ids). " a été supprimé avec succès.</p>";
 
-    header('Location: /index.php');
+    $_SESSION['message'] = "ID.#" . htmlspecialchars($ids) . " a été supprimé avec succès.";
+    header('Location: ' . BASE_URL . 'index.php');
+    exit;
 }
 
 _delete(

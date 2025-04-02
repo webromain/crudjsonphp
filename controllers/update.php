@@ -1,6 +1,8 @@
 <?php
 
 require_once '../config/db.php';
+require_once '../config/path.php';
+session_start();
 
 function _update($parse, $id, $name, $age, $role, $occupation, $activated) {
     // Vérification si l'ID existe dans le JSON
@@ -12,8 +14,9 @@ function _update($parse, $id, $name, $age, $role, $occupation, $activated) {
         }
     }
     if (!$found) {
-        echo "<p class='message'>Erreur : ID.#". htmlspecialchars($id). " non trouvé.</p>";
-        return;
+        $_SESSION['message'] = "Erreur : ID.#" . htmlspecialchars($id) . " non trouvé.";
+        header('Location: ' . BASE_URL . 'index.php');
+        exit;
     }
 
     // Mise à jour des données
@@ -49,9 +52,9 @@ function _update($parse, $id, $name, $age, $role, $occupation, $activated) {
     $contenu_json = json_encode($parse, JSON_PRETTY_PRINT);
     file_put_contents(__DIR__ . "/../bdd.json", $contenu_json);
 
-    echo "<p class='message'>ID.#". htmlspecialchars($id). " a été mis à jour avec succès.</p>";
-
-    header('Location: /index.php');
+    $_SESSION['message'] = "ID.#" . htmlspecialchars($id) . " a été mis à jour avec succès.";
+    header('Location: ' . BASE_URL . 'index.php');
+    exit;
 }
 
 _update(

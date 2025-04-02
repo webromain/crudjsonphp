@@ -1,11 +1,14 @@
 <?php
 
 require_once '../config/db.php';
+require_once '../config/path.php';
+session_start();
 
 function _create($parse, $name, $age, $role, $occupation, $activated) {
     if (count($parse) > 50) {
-        echo "<p class='message'> Pour des raisons de sécurité la bdd ne doit pas contenir plus de 50 personnes</p>";
-        return;
+        $_SESSION['message'] = "Pour des raisons de sécurité, la BDD ne doit pas contenir plus de 50 personnes.";
+        header('Location: ' . BASE_URL . 'index.php');
+        exit;
     }
 
     // Validation et assainissement des entrées
@@ -16,11 +19,12 @@ function _create($parse, $name, $age, $role, $occupation, $activated) {
     $activated = filter_var($activated, FILTER_VALIDATE_BOOLEAN, FILTER_NULL_ON_FAILURE);
 
     if ($name === "" || $age === false || $role === "" || $occupation === "" || $activated === null) {
-        echo "<p class='message'>Erreur : Données invalides.</p>";
-        return;
+        $_SESSION['message'] = "Erreur : Données invalides.";
+        header('Location: ' . BASE_URL . 'index.php');
+        exit;
     }
 
-    // Créer la nouvelle entrée à la suite de la bdd
+    // Créer la nouvelle entrée à la suite de la BDD
     $newId = end($parse)->id + 1;
     array_push($parse, ["id" => $newId, "name" => $name, "age" => $age, "role" => $role, "occupation" => $occupation, "activated" => $activated]);
 
@@ -28,9 +32,9 @@ function _create($parse, $name, $age, $role, $occupation, $activated) {
     $contenu_json = json_encode($parse, JSON_PRETTY_PRINT);
     file_put_contents(__DIR__ . "/../bdd.json", $contenu_json);
 
-    echo "<p class='message'>ID.#". $newId ." was created successfully.</p>";
-
-    header('Location: /index.php');
+    $_SESSION['message'] = "ID.#" . htmlspecialchars($newId) . " a été créé avec succès.";
+    header('Location: ' . BASE_URL . 'index.php');
+    exit;
 }
 
 _create(

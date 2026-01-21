@@ -3,3 +3,8 @@
 This project is a challenge I set myself to make a crud database manager for json.
 
 It will surely evolve over time.
+
+---
+
+Lancement:
+php -S localhost:8000
